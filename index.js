@@ -13,6 +13,14 @@ var path = require('path')
 
 var fixtures = {};
 
+function concat( options, properties ){
+  options = options || {};
+  for( var i in properties )
+    if( !options[i] )
+      options[i] = properties[i];
+
+  return options;
+}
 /**
  * define a new fixture
  *
@@ -23,13 +31,16 @@ var fixtures = {};
 fixtures.define = function define( name, properties ){
 
   var fixture = {};
+  var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
+
+  fixture.attributes = function( options ){
+    concat(options, properties);
+  }
 
   fixture.build = function( options ){
-    options = options || {};
-    for( var i in properties )
-      if( !options[i] )
-        options[i] = properties[i];
-    return new Fixture( options );
+    if( orm )
+      return new orm[modelName]( concat(options, properties ) );
+    return new Fixture( concat(options, properties) );
   }
 
   fixture.create = function( options, callback ){
@@ -37,8 +48,6 @@ fixtures.define = function define( name, properties ){
       callback = options;
       options = null;
     }
-
-    var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
 
     if( orm )
       orm.models[modelName].create( this.build( options ).toJSON(), callback );

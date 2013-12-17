@@ -64,3 +64,27 @@ Now you can use the following to create a fixture in the database
       // properties set up like defined above
     });
 
+## other useful functions
+
+### attributes
+
+    fixtures.user.attributes
+
+returns just the attributes set up in the fixture (as object)
+
+### build (with orm present)
+
+returns an orm (mongoose) model instane
+
+    fixtures.user.build()
+    >>> <mongoose model instance>
+
+### build (without orm)
+
+return an object (same as: attributes)
+
+### create (with orm present)
+
+    fixtures.user.create()
+    >>> <mongoose persisted model instance>
+
