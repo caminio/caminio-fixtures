@@ -1,0 +1,17 @@
+{
+  "name": "nginuous-fixtures",
+  "private": true,
+  "author": "thorsten.zerha@tastenwerk.com",
+  "dependencies": {
+    "nginuous": "~0.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "license": "GPLv3"
+}
