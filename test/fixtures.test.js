@@ -44,15 +44,6 @@ describe( 'Fixtures', function(){
       expect(this.fixt.build().name).to.eq('test');
     });
 
-    it('can .create a new fixture (stored to the database', function( done ){
-      expect(this.fixt).to.have.property('create');
-      this.fixt.create( function( err, testItem ){
-        console.log( err );
-        expect(testItem.name).to.eq('test');
-        done();
-      });
-    });
-
   });
 
 });

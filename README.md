@@ -48,6 +48,17 @@ myFixture should have properties:
 
 ### create database entry
 
+You can even use a orm which supports mongoose like syntax and shorthand
+these syntax by nginuous-fixtures. To enable this you must set
+
+    fixtures.enableORM( mongoose );
+
+or similar. Within nginuous engines, you can also provide nginuous 
+
+    fixtures.enableORM( nginuous );
+
+Now you can use the following to create a fixture in the database
+
     helper.fixtures.myFixture.create( function( err, myFixture ){
       // myFixture should now be a persisted database entry with
       // properties set up like defined above

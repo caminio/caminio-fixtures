@@ -7,20 +7,8 @@
 
 var path = require('path')
   , fs = require('fs')
-  , Fixture = require('./lib/fixture')
-  , nginuous = require('nginuous');
+  , Fixture = require('./lib/fixture');
 
-
-// initialize the app directory in case
-// of a self test and start up nginuous
-if( process.env.NODE_ENV === 'test' && process.env.NGINUOUS_FIXTURES_TEST){
-  new nginuous.Gear();
-  var app = nginuous();
-  // clean testitems collection, maybe it has been modified from outside
-  nginuous.orm.connection.collections['testitems'].drop( function(err) {
-    console.log('collection dropped');
-  });
-}
 
 
 var fixtures = {};
@@ -49,13 +37,25 @@ fixtures.define = function define( name, properties ){
       callback = options;
       options = null;
     }
+
     var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
-    nginuous.orm.models[modelName].create( this.build( options ).toJSON(), callback );
+
+    if( orm )
+      orm.models[modelName].create( this.build( options ).toJSON(), callback );
   }
 
   this[name] = fixture;
   return fixture;
 
+}
+
+var orm;
+/**
+ * enable orm
+ */
+fixtures.enableORM = function( _orm ){
+  orm = _orm.orm ? _orm.orm : _orm;
+  orm.connection.collections['testitems'].drop();
 }
 
 /**
