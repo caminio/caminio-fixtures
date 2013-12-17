@@ -5,7 +5,9 @@
  *
  */
 
-var Fixture = require('./lib/fixture')
+var path = require('path')
+  , fs = require('fs')
+  , Fixture = require('./lib/fixture')
   , nginuous = require('nginuous');
 
 
@@ -48,11 +50,35 @@ fixtures.define = function define( name, properties ){
       options = null;
     }
     var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
-    console.log('trying to craete a new ', modelName);
     nginuous.orm.models[modelName].create( this.build( options ).toJSON(), callback );
   }
 
+  this[name] = fixture;
   return fixture;
+
+}
+
+/**
+ * read in fixtures from fixtures directory
+ *
+ * this expects a test/fixtures directory
+ * to exist
+ */
+fixtures.readFixtures = function( alternativePath ){
+
+  var pth = alternativePath || path.join( process.cwd(), 'test', 'fixtures' );
+
+  if( !fs.existsSync( pth ) )
+    throw new Error('fixtures path ' + pth + ' was not found');
+
+  fs
+    .readdirSync(pth)
+    .filter(function(file) {
+      return file.indexOf('.fixture.js') > 0
+    })
+    .forEach(function(file) {
+      require( path.join( pth, file ) );
+    });
 
 }
 

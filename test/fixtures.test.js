@@ -25,6 +25,14 @@ describe( 'Fixtures', function(){
 
   });
 
+  describe('provides', function(){
+  
+    it('fixtures which have been stored in test/fixtures directory', function(){
+      expect(fixtures.myFixture).to.be.a('object'); 
+    });
+
+  });
+
   describe('methods', function(){
 
     before( function(){
