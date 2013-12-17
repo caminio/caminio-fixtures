@@ -1,5 +1,6 @@
 {
   "name": "nginuous-fixtures",
+  "version": "0.1.0",
   "private": true,
   "author": "thorsten.zerha@tastenwerk.com",
   "dependencies": {
