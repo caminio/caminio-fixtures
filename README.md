@@ -52,3 +52,4 @@ myFixture should have properties:
       // myFixture should now be a persisted database entry with
       // properties set up like defined above
     });
+
