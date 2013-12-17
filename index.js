@@ -33,13 +33,16 @@ fixtures.define = function define( name, properties ){
   var fixture = {};
   var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
 
+  if( orm && !orm.models[modelName] )
+    throw new Error(modelName+' was not found in orm models');
+
   fixture.attributes = function( options ){
-    concat(options, properties);
+    return new Fixture( concat(options, properties) ).toJSON();
   }
 
   fixture.build = function( options ){
     if( orm )
-      return new orm[modelName]( concat(options, properties ) );
+      return new orm.models[modelName]( new Fixture( concat(options, properties ) ).toJSON() );
     return new Fixture( concat(options, properties) );
   }
 
@@ -50,7 +53,9 @@ fixtures.define = function define( name, properties ){
     }
 
     if( orm )
-      orm.models[modelName].create( this.build( options ).toJSON(), callback );
+      return orm.models[modelName].create( this.attributes( options ), callback );
+
+    throw new Error('no orm adapter present! aborting.');
   }
 
   this[name] = fixture;
