@@ -55,7 +55,8 @@ var orm;
  */
 fixtures.enableORM = function( _orm ){
   orm = _orm.orm ? _orm.orm : _orm;
-  orm.connection.collections['testitems'].drop();
+  if( 'testitems' in orm.connection.collections )
+    orm.connection.collections['testitems'].drop();
 }
 
 /**
