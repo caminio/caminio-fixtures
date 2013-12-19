@@ -19,7 +19,7 @@ in order to get recognized bye the fixtures helper
 
     var fixtures = require('nginuous-fixtures');
     
-    fixtures.define('myFixture', {
+    fixtures.define('My', {
       name: 'test',
       dynamic: function(){ return Math.random(1000); }
     });
@@ -87,4 +87,40 @@ return an object (same as: attributes)
 
     fixtures.user.create()
     >>> <mongoose persisted model instance>
+
+## hooks
+
+hooks help to do database actions, that need a callback
+
+### afterBuild
+
+    fixtures.define('My', {
+      name: 'test',
+      dynamic: function(){ return Math.random(1000); }
+    })
+    .afterBuild( function( my, next ){
+      my.name = 'other';  
+      next( my );
+    });
+
+of course, one has to call build with callback function in order
+to get afterBuild results:
+
+    fixtures.My.build( function( my ){
+      // do something with my
+    });
+
+### beforeCreate
+
+runs before orm save() method is called.
+
+    fixtures.define('My', {
+      name: 'test',
+      dynamic: function(){ return Math.random(1000); }
+    })
+    .beforeCreate( function( err, my, next ){
+      if( err ) console.log('error:', err);
+      my.name = 'other';  
+      next( my );
+    });
 

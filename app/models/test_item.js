@@ -5,12 +5,11 @@
  *
  */
 
-var nginuous = require('nginuous')
-  , orm = nginuous.orm;
+var mongoose = require('mongoose')
 
-var TestSchema = orm.Schema({
+var TestSchema = mongoose.Schema({
     name: { type: String, required: true },
     dynamic: { type: Number, required: true, index: { unique: true } }
 });
 
-module.exports = orm.model('TestItem', TestSchema);
+module.exports = mongoose.model('TestItem', TestSchema);

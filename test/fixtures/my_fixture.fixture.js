@@ -7,7 +7,7 @@
 
 var fixtures = require('../../');
 
-fixtures.define('myFixture', {
+fixtures.define('My', {
   name: 'myFixture',
   dynamic: function(){ return Math.random(1000); }
 });

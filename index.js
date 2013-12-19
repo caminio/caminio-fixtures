@@ -34,28 +34,66 @@ fixtures.define = function define( name, properties ){
   var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
 
   if( orm && !orm.models[modelName] )
-    throw new Error(modelName+' was not found in orm models');
+    throw Error(modelName+' was not found in orm models '+Object.keys(orm.models).join(','));
 
   fixture.attributes = function( options ){
     return new Fixture( concat(options, properties) ).toJSON();
   }
 
-  fixture.build = function( options ){
-    if( orm )
-      return new orm.models[modelName]( new Fixture( concat(options, properties ) ).toJSON() );
-    return new Fixture( concat(options, properties) );
+  fixture.build = function( options, callback ){
+    if( typeof(options) === 'function' && arguments.length < 2 ){
+      callback = options;
+      options = null;
+    }
+    if( !orm.models[modelName] )
+      console.log('Model name', modelName, 'was not found in', Object.keys(orm.models).join(',') );
+    if( typeof(callback) === 'function' ){
+      if( this.hooks.build )
+        return this.hooks.build( new orm.models[modelName]( (new Fixture( concat(options, properties ) )).toJSON() ), callback );
+      return callback( new orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() ) );
+    }
+    if( typeof(this.hooks.build) === 'function' )
+      console.log('NGINUOUS FIXTURES WARNING: no callback was passed, but a callback hook is defined for this fixture');
+    return orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() );
   }
 
   fixture.create = function( options, callback ){
-    if( arguments.length === 1 ){
+    if( typeof(options) === 'function' && arguments.length < 2 ){
       callback = options;
       options = null;
     }
 
-    if( orm )
-      return orm.models[modelName].create( this.attributes( options ), callback );
+    if( typeof(this.hooks.create) === 'function' ){
+      return fixture.build( options, function( modelItem ){
+        modelItem.save( function( err ){
+          fixture.hooks.create( err, modelItem, callback );
+        });
+      });
+    }
+    orm.models[modelName].create( fixture.attributes( options ), callback );
+  }
 
-    throw new Error('no orm adapter present! aborting.');
+  // hooks [build,create]
+  fixture.hooks = {};
+
+  /**
+   * adds a callback function to the fixture
+   *
+   * @param {Function} callback( fixture )
+   */
+  fixture.afterBuild = function( callback ){
+    fixture.hooks.build = callback;
+    return fixture;
+  }
+
+  /**
+   * adds a callback function to the fixture
+   *
+   * @param {Function} callback( fixture )
+   */
+  fixture.beforeCreate = function( callback ){
+    fixture.hooks.create = callback;
+    return fixture;
   }
 
   this[name] = fixture;
@@ -84,7 +122,7 @@ fixtures.readFixtures = function( alternativePath ){
   var pth = alternativePath || path.join( process.cwd(), 'test', 'fixtures' );
 
   if( !fs.existsSync( pth ) )
-    throw new Error('fixtures path ' + pth + ' was not found');
+    throw Error('fixtures path ' + pth + ' was not found');
 
   fs
     .readdirSync(pth)
