@@ -4,7 +4,7 @@
 
 
 var helper = require('./helper')
-  , nginuous = helper.nginuous
+  , nginious = helper.nginious
   , expect = helper.chai.expect
   , fixtures = require('../')
   , Fixture = require('../lib/fixture');

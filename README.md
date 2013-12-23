@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/tastenwerk/nginuous-fixtures.png)](https://travis-ci.org/tastenwerk/nginuous-fixtures)
+[![Build Status](https://travis-ci.org/tastenwerk/nginious-fixtures.png)](https://travis-ci.org/tastenwerk/nginious-fixtures)
 
-# nginuous-fixtures
+# nginious-fixtures
 
-this is an extension for nginuous. It can simplify the testing process
-within nginuous
+this is an extension for nginious. It can simplify the testing process
+within nginious
 
 ## installation
 
-    npm install --save nginuous-fixtures
+    npm install --save nginious-fixtures
 
 ## usage
 
@@ -17,7 +17,7 @@ in order to get recognized bye the fixtures helper
 
 ### test/fixtures/my_fixture.js
 
-    var fixtures = require('nginuous-fixtures');
+    var fixtures = require('nginious-fixtures');
     
     fixtures.define('My', {
       name: 'test',
@@ -33,7 +33,7 @@ unique field set up in the database.
     
     ...
 
-    helper.fixtures = require('nginuous-fixtures');
+    helper.fixtures = require('nginious-fixtures');
     helper.fixtures.readFixtures();
     
     ...
@@ -49,13 +49,13 @@ myFixture should have properties:
 ### create database entry
 
 You can even use a orm which supports mongoose like syntax and shorthand
-these syntax by nginuous-fixtures. To enable this you must set
+these syntax by nginious-fixtures. To enable this you must set
 
     fixtures.enableORM( mongoose );
 
-or similar. Within nginuous engines, you can also provide nginuous 
+or similar. Within nginious engines, you can also provide nginious 
 
-    fixtures.enableORM( nginuous );
+    fixtures.enableORM( nginious );
 
 Now you can use the following to create a fixture in the database
 

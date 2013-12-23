@@ -1,5 +1,5 @@
 /**
- * nginuous test helper
+ * nginious test helper
  */
 
 var fs = require('fs')
@@ -20,7 +20,7 @@ helper.fixtures.readFixtures();
 
 helper.orm = mongoose;
 
-var dbPath = 'mongodb://localhost:27017/nginuous_fixtures_test';
+var dbPath = 'mongodb://localhost:27017/nginious_fixtures_test';
 
 var connection;
 
