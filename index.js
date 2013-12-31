@@ -1,5 +1,5 @@
 /*
- * nginious
+ * nginios
  * (c) 2014 by TASTENWERK
  * license: GPLv3
  *
@@ -53,7 +53,7 @@ fixtures.define = function define( name, properties ){
       return callback( new orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() ) );
     }
     if( typeof(this.hooks.build) === 'function' )
-      console.log('nginious FIXTURES WARNING: no callback was passed, but a callback hook is defined for this fixture');
+      console.log('nginios FIXTURES WARNING: no callback was passed, but a callback hook is defined for this fixture');
     return orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() );
   }
 
