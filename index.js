@@ -27,11 +27,19 @@ function concat( options, properties ){
  * helps setting up a fixture with attributes
  * that can invoke database actions and memorize
  * users
- */
-fixtures.define = function define( name, properties ){
+ *
+ * @class Fixture
+ *
+ **/
+fixtures.define = function define( name, modelName, properties ){
+
+  if( arguments.length < 3 ){
+    properties = modelName;
+    modelName = null;
+  }
 
   var fixture = {};
-  var modelName = name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
+  modelName = modelName || name.substr(0,1).toUpperCase()+name.substr(1,name.length-1);
 
   if( orm && !orm.models[modelName] )
     throw Error(modelName+' was not found in orm models '+Object.keys(orm.models).join(','));
@@ -40,13 +48,23 @@ fixtures.define = function define( name, properties ){
     return new Fixture( concat(options, properties) ).toJSON();
   }
 
+  /**
+   Build a fixture, but don't save it to the database yet
+
+   @method build
+   @param {Object} attributes Override attributes in the fixture setup
+   @param {Function} callback The callback to be called when building is finished. This is only usefull, if a afterBuild hook is present
+   @param {String|Object} callback.err
+   @param {Fixture} this
+   @return {Fixture} this
+   **/
   fixture.build = function( options, callback ){
     if( typeof(options) === 'function' && arguments.length < 2 ){
       callback = options;
       options = null;
     }
     if( !orm.models[modelName] )
-      console.log('Model name', modelName, 'was not found in', Object.keys(orm.models).join(',') );
+      throw('Model name '+modelName+' was not found in '+ Object.keys(orm.models).join(',') );
     if( typeof(callback) === 'function' ){
       if( this.hooks.build )
         return this.hooks.build( new orm.models[modelName]( (new Fixture( concat(options, properties ) )).toJSON() ), callback );
@@ -57,6 +75,15 @@ fixtures.define = function define( name, properties ){
     return orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() );
   }
 
+  /**
+   create a fixture and save it to the database
+  
+   @method create
+   @param {Function} callback The callback to be called when building is finished. This is only usefull, if a afterBuild hook is present
+   @param {String|Object} callback.err
+   @param {Fixture} this
+   @return {Fixture} this
+  **/
   fixture.create = function( options, callback ){
     if( typeof(options) === 'function' && arguments.length < 2 ){
       callback = options;
@@ -69,28 +96,38 @@ fixtures.define = function define( name, properties ){
           fixture.hooks.create( err, modelItem, callback );
         });
       });
-    }
-    orm.models[modelName].create( fixture.attributes( options ), callback );
+    } else
+      orm.models[modelName].create( fixture.attributes( options ), callback );
   }
 
   // hooks [build,create]
   fixture.hooks = {};
 
   /**
-   * adds a callback function to the fixture
-   *
-   * @param {Function} callback( fixture )
-   */
+   adds a callback function to the fixture
+   
+   @method afterBuild
+   @param {Function} callback
+   @param {Fixture Instance} callback.fixture
+   @return {Fixture} this
+  **/
   fixture.afterBuild = function( callback ){
     fixture.hooks.build = callback;
     return fixture;
   }
 
   /**
-   * adds a callback function to the fixture
-   *
-   * @param {Function} callback( fixture )
-   */
+  adds a callback function to the fixture
+ 
+  @method beforeCreate
+  @param {Function} callback
+  @param {Error} callback.err
+  @param {ModelItem} callback.modelItem
+  @param {Function} callback.callback trigger when ready. Attention: callback needs to be filled with the modelItem
+  @param {Error} callback.callback.err
+  @param {ModelItem} callback.callback.modelItem
+  @return {Fixture} this
+  **/
   fixture.beforeCreate = function( callback ){
     fixture.hooks.create = callback;
     return fixture;

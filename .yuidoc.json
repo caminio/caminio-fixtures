@@ -1,0 +1,15 @@
+{
+  "name": "nginios",
+  "description": "nginios documentation",
+  "version": "1.0",
+  "url": "http://doc.nginuo.us",
+  "themedir": ".yuidoc-theme",
+  "logo": "./logo.png",
+  "options": {
+      "linkNatives": "true",
+      "attributesEmit": "true",
+      "exclude": "test,node_modules,public/javascripts/vendor",
+      "paths": [ "." ],
+      "outdir": "./doc"
+    }
+}
