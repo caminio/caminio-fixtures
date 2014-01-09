@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/tastenwerk/nginios-fixtures.png)](https://travis-ci.org/tastenwerk/nginios-fixtures)
+[![Build Status](https://travis-ci.org/tastenwerk/caminio-fixtures.png)](https://travis-ci.org/tastenwerk/caminio-fixtures)
 
-# nginios-fixtures
+# caminio-fixtures
 
-this is an extension for nginios. It can simplify the testing process
-within nginios
+this is an extension for caminio. It can simplify the testing process
+within caminio
 
 ## installation
 
-    npm install --save nginios-fixtures
+    npm install --save caminio-fixtures
 
 ## usage
 
@@ -17,7 +17,7 @@ in order to get recognized bye the fixtures helper
 
 ### test/fixtures/my_fixture.js
 
-    var fixtures = require('nginios-fixtures');
+    var fixtures = require('caminio-fixtures');
     
     fixtures.define('My', {
       name: 'test',
@@ -33,7 +33,7 @@ unique field set up in the database.
     
     ...
 
-    helper.fixtures = require('nginios-fixtures');
+    helper.fixtures = require('caminio-fixtures');
     helper.fixtures.readFixtures();
     
     ...
@@ -49,13 +49,13 @@ myFixture should have properties:
 ### create database entry
 
 You can even use a orm which supports mongoose like syntax and shorthand
-these syntax by nginios-fixtures. To enable this you must set
+these syntax by caminio-fixtures. To enable this you must set
 
     fixtures.enableORM( mongoose );
 
-or similar. Within nginios engines, you can also provide nginios 
+or similar. Within caminio engines, you can also provide caminio 
 
-    fixtures.enableORM( nginios );
+    fixtures.enableORM( caminio );
 
 Now you can use the following to create a fixture in the database
 

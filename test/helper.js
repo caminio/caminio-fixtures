@@ -1,5 +1,5 @@
 /**
- * nginios test helper
+ * caminio test helper
  */
 
 var fs = require('fs')
@@ -20,7 +20,7 @@ helper.fixtures.readFixtures();
 
 helper.orm = mongoose;
 
-var dbPath = 'mongodb://localhost:27017/nginios_fixtures_test';
+var dbPath = 'mongodb://localhost:27017/caminio_fixtures_test';
 
 var connection;
 

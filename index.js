@@ -1,5 +1,5 @@
 /*
- * nginios
+ * caminio
  * (c) 2014 by TASTENWERK
  * license: GPLv3
  *
@@ -71,7 +71,7 @@ fixtures.define = function define( name, modelName, properties ){
       return callback( new orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() ) );
     }
     if( typeof(this.hooks.build) === 'function' )
-      console.log('nginios FIXTURES WARNING: no callback was passed, but a callback hook is defined for this fixture');
+      console.log('caminio FIXTURES WARNING: no callback was passed, but a callback hook is defined for this fixture');
     return orm.models[modelName]( (new Fixture( concat(options, properties) )).toJSON() );
   }
 
