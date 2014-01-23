@@ -1,6 +1,6 @@
 {
   "name": "caminio-fixtures",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "author": "thorsten.zerha@tastenwerk.com",
   "dependencies": {
@@ -14,5 +14,5 @@
   "scripts": {
     "test": "make test"
   },
-  "license": "GPLv3"
+  "license": "MIT"
 }

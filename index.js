@@ -64,7 +64,7 @@ fixtures.define = function define( name, modelName, properties ){
       options = null;
     }
     if( !orm.models[modelName] )
-      throw('Model name '+modelName+' was not found in '+ Object.keys(orm.models).join(',') );
+      throw Error('Model name '+modelName+' was not found in '+ Object.keys(orm.models).join(',') );
     if( typeof(callback) === 'function' ){
       if( this.hooks.build )
         return this.hooks.build( new orm.models[modelName]( (new Fixture( concat(options, properties ) )).toJSON() ), callback );
